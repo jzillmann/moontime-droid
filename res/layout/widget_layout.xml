@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="fill_parent" 
+	android:layout_height="fill_parent" 
+	android:background="@drawable/background_border"
+	>
+	
+	<ImageView
+		android:id="@+id/moonPic" 
+		android:scaleType="fitXY"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+	/>
+	
+	<TextView
+		android:id="@+id/nextMoons"
+		android:layout_height="fill_parent"
+		android:layout_width="fill_parent"
+		android:gravity="top|center"
+	/>
+		
+	<LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|right" >
+        
+		<ImageButton android:id="@+id/debug_AddTimeButton"
+	    	style="?android:attr/buttonStyleSmall"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:src="@drawable/clock_add"
+	  	/>
+		    	
+	   	<ImageButton android:id="@+id/debug_RemoveTimeButton"
+	   		style="?android:attr/buttonStyleSmall"
+	    	android:layout_width="wrap_content"
+	    	android:layout_height="wrap_content"
+	    	android:src="@drawable/clock_delete"
+	   	/>
+   	
+   	</LinearLayout>
+</FrameLayout>

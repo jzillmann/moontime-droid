@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Moontime</string>
+    <string name="ok">OK</string>
+    <string name="conf.label.datePattern">Date Pattern</string>
+    <string name="conf.label.theme">Widget Theme</string>
+    <string name="conf.default.datePattern">MMM dd, EEE - HH:mm</string>
+</resources>

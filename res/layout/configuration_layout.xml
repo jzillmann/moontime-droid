@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  android:layout_width="fill_parent"
+  android:layout_height="fill_parent"
+  android:orientation="vertical"
+  >
+
+	<TextView 
+		style="@style/Config.Label" 
+		android:text="@string/conf.label.datePattern"
+	/>
+	
+    <EditText
+		style="@style/Config"
+        android:id="@+id/datePattern"
+        android:text="@string/conf.default.datePattern"
+    />
+    
+   	<TextView 
+		style="@style/Config.Label" 
+		android:text="@string/conf.label.theme"
+	/>
+    
+    <Spinner
+		 style="@style/Config"
+		 android:id="@+id/themeSpinner"
+	/>
+	
+	<View
+	    android:layout_width="fill_parent"
+	    android:layout_height="5dp"
+	    android:background="?android:attr/listDivider"
+    /> 
+	    	   
+    <Button
+        style="@style/Config"
+        android:id="@+id/save_button"
+        android:text="@android:string/ok"
+        android:textStyle="bold"
+        android:onClick="submit"
+    />
+    
+
+</LinearLayout>
