@@ -18,14 +18,16 @@ public final class R {
         public static final int background_newmoon_yellow=0x7f020004;
         public static final int clock_add=0x7f020005;
         public static final int clock_delete=0x7f020006;
-        public static final int fullmoon=0x7f020007;
-        public static final int icon=0x7f020008;
-        public static final int icon_org=0x7f020009;
+        public static final int clock_reset=0x7f020007;
+        public static final int fullmoon=0x7f020008;
+        public static final int icon=0x7f020009;
+        public static final int icon_org=0x7f02000a;
     }
     public static final class id {
         public static final int datePattern=0x7f070000;
-        public static final int debug_AddTimeButton=0x7f070005;
-        public static final int debug_RemoveTimeButton=0x7f070006;
+        public static final int debug_AddTimeButton=0x7f070006;
+        public static final int debug_RemoveTimeButton=0x7f070007;
+        public static final int debug_ResetTimeButton=0x7f070005;
         public static final int moonPic=0x7f070003;
         public static final int nextMoons=0x7f070004;
         public static final int save_button=0x7f070002;

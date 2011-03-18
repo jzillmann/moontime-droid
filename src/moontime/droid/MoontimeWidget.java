@@ -59,17 +59,15 @@ public class MoontimeWidget extends AppWidgetProvider {
     if (true) {// debug only
       phaseHuntStartTime += DEBUG_ADDITIONAL_TIME;
       now += DEBUG_ADDITIONAL_TIME;
-      System.out.println("now: " + new Date(now));
+      Log.d("debug", "now: " + new Date(now) + " (debug time: " + DEBUG_ADDITIONAL_TIME + " ms)");
     }
     WidgetPreferences preferences = WidgetPreferences.initFromPreferences(context, widgetId);
     DateFormat datePattern = new SimpleDateFormat(preferences.getDatePattern());
-    Log.d("moontime", "now=" + datePattern.format(new Date(now)));
     List<MoonEvent> moonEvents = _moonAlgorithm.getNextMoonEvents(MoonUtil.newCalender(phaseHuntStartTime), 3,
         EnumSet.of(MoonEventType.NEW_MOON, MoonEventType.FULL_MOON));
 
     SpannableBuilder builder = new SpannableBuilder();
     MoonEvent nextMoonEvent = null;
-    // boolean passedEvent = false;
     for (int i = 0; i < moonEvents.size(); i++) {
       if (i > 0) {
         builder.append("\n");
@@ -78,7 +76,6 @@ public class MoontimeWidget extends AppWidgetProvider {
       EventAllocation eventAllocation = EventAllocation.getEventAllocation(now, moonEvent.getDate().getTime(),
           Util.hoursToMillis(12), Util.hoursToMillis(24));
       if (eventAllocation != EventAllocation.IN_PAST && nextMoonEvent == null) {
-        System.out.println(moonEvent + " / " + eventAllocation);
         nextMoonEvent = moonEvent;
       }
       String moonEventString = toString(moonEvent, datePattern, eventAllocation);
@@ -143,6 +140,14 @@ public class MoontimeWidget extends AppWidgetProvider {
       @Override
       public void execute(MoontimeWidget moontimeWidget, Context context) {
         MoontimeWidget.DEBUG_ADDITIONAL_TIME -= Util.hoursToMillis(12);
+        updateViews(context);
+      }
+    },
+
+    RESET_ADD_TIME(R.id.debug_ResetTimeButton) {
+      @Override
+      public void execute(MoontimeWidget moontimeWidget, Context context) {
+        MoontimeWidget.DEBUG_ADDITIONAL_TIME = 0;
         updateViews(context);
       }
     };
