@@ -17,31 +17,32 @@
 		android:id="@+id/nextMoons"
 		android:layout_height="fill_parent"
 		android:layout_width="fill_parent"
-		android:gravity="top|center"
+		android:gravity="bottom"
+		
 	/>
 		
 	<LinearLayout
         android:orientation="horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right" >
+        android:layout_gravity="top|right" >
         
         <ImageButton android:id="@+id/debug_ResetTimeButton"
-	    	style="?android:attr/buttonStyleSmall"
+	    	style="@style/DebugButton"
 	    	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
 	    	android:src="@drawable/clock_reset"
 	  	/>
         
 		<ImageButton android:id="@+id/debug_AddTimeButton"
-	    	style="?android:attr/buttonStyleSmall"
+	    	style="@style/DebugButton"
 	    	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
 	    	android:src="@drawable/clock_add"
 	  	/>
 		    	
 	   	<ImageButton android:id="@+id/debug_RemoveTimeButton"
-	   		style="?android:attr/buttonStyleSmall"
+	   		style="@style/DebugButton"
 	    	android:layout_width="wrap_content"
 	    	android:layout_height="wrap_content"
 	    	android:src="@drawable/clock_delete"

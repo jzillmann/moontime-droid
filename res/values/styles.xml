@@ -13,5 +13,9 @@
 		<item name="android:layout_height">wrap_content</item>
 		<item name="android:singleLine">true</item>
     </style>
+    
+    <style name="DebugButton" parent="@android:style/Widget.Button.Small">
+    	<item name="android:visibility">gone</item><!-- visible/gone -->
+	</style>
 	
 </resources>

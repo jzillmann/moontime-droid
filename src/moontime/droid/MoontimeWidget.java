@@ -31,9 +31,9 @@ import android.widget.RemoteViews;
 
 public class MoontimeWidget extends AppWidgetProvider {
 
-  private static MoonPhaseAlgorithm _moonAlgorithm = new MoonToolPhaseAlgorithm();
+  private final static MoonPhaseAlgorithm _moonAlgorithm = new MoonToolPhaseAlgorithm();
+  private final static long SHOW_EVENT_AFTER_PASSED_AWAY_TIME = Util.hoursToMillis(48);
   private static long DEBUG_ADDITIONAL_TIME = 0;
-  private static long SHOW_EVENT_AFTER_PASSED_AWAY_TIME = Util.hoursToMillis(48);
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -107,7 +107,8 @@ public class MoontimeWidget extends AppWidgetProvider {
     switch (eventAllocation) {
     case IN_FUTURE:
       if (!isNextMoonEvent) {
-        return new StyleSpan(Typeface.ITALIC);
+        // return new StyleSpan(Typeface.ITALIC);
+        return null;
       }
       return new StyleSpan(Typeface.BOLD);
     case IN_PRESENT:
