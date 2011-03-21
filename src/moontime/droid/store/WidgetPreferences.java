@@ -1,5 +1,8 @@
-package moontime.droid;
+package moontime.droid.store;
 
+import moontime.droid.R;
+import moontime.droid.WidgetConfigurationActivity;
+import moontime.droid.WidgetTheme;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -41,10 +44,10 @@ public class WidgetPreferences {
     Log.i("config", "stored preferences for widget '" + getWidgetId() + "' to '" + getPreferencesKey() + "'");
   }
 
-  public static WidgetPreferences initFromView(WidgetConfiguration activity) {
-    WidgetPreferences widgetPreferences = new WidgetPreferences(activity._widgetId);
-    widgetPreferences._datePattern = activity._datePatternText.getText().toString();
-    widgetPreferences._theme = (WidgetTheme) activity._themeSpinner.getSelectedItem();
+  public static WidgetPreferences initFromView(WidgetConfigurationActivity activity) {
+    WidgetPreferences widgetPreferences = new WidgetPreferences(activity.getWidgetId());
+    widgetPreferences._datePattern = activity.getDatePatternText().getText().toString();
+    widgetPreferences._theme = (WidgetTheme) activity.getThemeSpinner().getSelectedItem();
     return widgetPreferences;
   }
 

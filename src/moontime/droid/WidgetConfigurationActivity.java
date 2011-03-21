@@ -1,6 +1,8 @@
 package moontime.droid;
 
-import android.app.Activity;
+import moontime.droid.store.WidgetPreferences;
+import roboguice.activity.RoboActivity;
+import roboguice.inject.InjectView;
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
 import android.content.Intent;
@@ -11,11 +13,25 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
-public class WidgetConfiguration extends Activity {
+public class WidgetConfigurationActivity extends RoboActivity {
 
-  EditText _datePatternText;
-  Spinner _themeSpinner;
-  int _widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+  private int _widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
+  @InjectView(R.id.datePattern)
+  private EditText _datePatternText;
+  @InjectView(R.id.themeSpinner)
+  private Spinner _themeSpinner;
+
+  public int getWidgetId() {
+    return _widgetId;
+  }
+
+  public EditText getDatePatternText() {
+    return _datePatternText;
+  }
+
+  public Spinner getThemeSpinner() {
+    return _themeSpinner;
+  }
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +52,7 @@ public class WidgetConfiguration extends Activity {
     if (_widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
       finish();
     }
-
     setContentView(R.layout.configuration_layout);
-    _datePatternText = (EditText) findViewById(R.id.datePattern);
-    _themeSpinner = (Spinner) findViewById(R.id.themeSpinner);
     ArrayAdapter<WidgetTheme> adapter = new ArrayAdapter<WidgetTheme>(this, android.R.layout.simple_spinner_item,
         WidgetTheme.values());
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

@@ -11,7 +11,7 @@ import moontime.MoonEvent.EventAllocation;
 import moontime.MoonEventType;
 import moontime.MoonPhaseAlgorithm;
 import moontime.MoonUtil;
-import moontime.alg.MoonToolPhaseAlgorithm;
+import moontime.droid.store.WidgetPreferences;
 import moontime.droid.util.SpannableBuilder;
 import moontime.droid.util.Util;
 import android.app.PendingIntent;
@@ -29,11 +29,15 @@ import android.text.style.UnderlineSpan;
 import android.util.Log;
 import android.widget.RemoteViews;
 
+import com.google.inject.Inject;
+
 public class MoontimeWidget extends AppWidgetProvider {
 
-  private final static MoonPhaseAlgorithm _moonAlgorithm = new MoonToolPhaseAlgorithm();
   private final static long SHOW_EVENT_AFTER_PASSED_AWAY_TIME = Util.hoursToMillis(48);
   private static long DEBUG_ADDITIONAL_TIME = 0;
+
+  @Inject
+  protected static MoonPhaseAlgorithm _moonAlgorithm = MoontimeApplication.MOON_PHASE_ALGORITHM;
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
@@ -88,6 +92,9 @@ public class MoontimeWidget extends AppWidgetProvider {
     RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.widget_layout);
     views.setTextViewText(R.id.nextMoons, builder);
     views.setTextColor(R.id.nextMoons, context.getResources().getColor(preferences.getTheme().getTextColor()));
+
+    PendingIntent intent = PendingIntent.getActivity(context, 0, new Intent(context, ReminderActivity.class), 0);
+    views.setOnClickPendingIntent(R.id.moonPic, intent);
 
     int moonPicId;
     if (nextMoonEvent.getType() == MoonEventType.FULL_MOON) {
