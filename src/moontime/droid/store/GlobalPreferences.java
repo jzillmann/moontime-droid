@@ -100,10 +100,11 @@ public class GlobalPreferences {
     }
   }
 
+  @SuppressWarnings("unchecked")
   private <T> T loadFromJson(String preferenceKey, String defaultValue, TypeReference<T> typeReference) {
     try {
       String prefValue = _preferences.getString(preferenceKey, defaultValue);
-      return _objectMapper.readValue(prefValue, typeReference);
+      return (T) _objectMapper.readValue(prefValue, typeReference);
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
