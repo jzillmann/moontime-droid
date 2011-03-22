@@ -80,5 +80,14 @@
              - customize to your needs.
     -->
     <setup />
-
+	
+	<target name="upload" depends="release" description="--> uploads the release to a configured folder">
+		<fail unless="upload.folder" message="specify upload.folder in build.properties"/>
+		<copy todir="${upload.folder}" overwrite="true" >
+			<fileset dir="bin">
+				<include name="*-release.apk"/>
+			</fileset>
+		</copy>
+	</target>
+	
 </project>
