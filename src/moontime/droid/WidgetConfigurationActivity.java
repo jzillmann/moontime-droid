@@ -13,8 +13,12 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import com.google.inject.Inject;
+
 public class WidgetConfigurationActivity extends RoboActivity {
 
+  @Inject
+  private MoontimeService _moontimeService;
   private int _widgetId = AppWidgetManager.INVALID_APPWIDGET_ID;
   @InjectView(R.id.datePattern)
   private EditText _datePatternText;
@@ -66,7 +70,7 @@ public class WidgetConfigurationActivity extends RoboActivity {
 
     // Push widget update to surface with newly set prefix
     AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-    MoontimeWidget.updateView(context, appWidgetManager, _widgetId);
+    MoontimeWidget.updateView(_moontimeService, context, appWidgetManager, _widgetId);
 
     // Make sure we pass back the original appWidgetId
     Intent resultValue = new Intent();

@@ -2,15 +2,11 @@ package moontime.droid;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.EnumSet;
 import java.util.List;
 
 import moontime.MoonEvent;
 import moontime.MoonEvent.EventAllocation;
 import moontime.MoonEventType;
-import moontime.MoonPhaseAlgorithm;
-import moontime.MoonUtil;
 import moontime.droid.store.WidgetPreferences;
 import moontime.droid.util.SpannableBuilder;
 import moontime.droid.util.Util;
@@ -26,23 +22,23 @@ import android.text.Spannable;
 import android.text.style.StrikethroughSpan;
 import android.text.style.StyleSpan;
 import android.text.style.UnderlineSpan;
-import android.util.Log;
 import android.widget.RemoteViews;
 
 import com.google.inject.Inject;
 
 public class MoontimeWidget extends AppWidgetProvider {
 
-  private final static long SHOW_EVENT_AFTER_PASSED_AWAY_TIME = Util.hoursToMillis(48);
-  private static long DEBUG_ADDITIONAL_TIME = 0;
-
   @Inject
-  protected static MoonPhaseAlgorithm _moonAlgorithm = MoontimeApplication.MOON_PHASE_ALGORITHM;
+  protected MoontimeService _moontimeService;
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    if (_moontimeService == null) {
+      _moontimeService = MoontimeApplication._moontimeServiceInstance;
+      // don't know how to bind here
+    }
     for (int widgetId : appWidgetIds) {
-      updateView(context, appWidgetManager, widgetId);
+      updateView(_moontimeService, context, appWidgetManager, widgetId);
     }
   }
 
@@ -53,22 +49,16 @@ public class MoontimeWidget extends AppWidgetProvider {
       Uri data = intent.getData();
       int ordinal = Integer.parseInt(data.getSchemeSpecificPart());
       Action control = Action.values()[ordinal];
-      control.execute(this, context);
+      control.execute(_moontimeService, this, context);
     }
   }
 
-  static void updateView(Context context, AppWidgetManager appWidgetManager, int widgetId) {
+  static void updateView(MoontimeService moontimeService, Context context, AppWidgetManager appWidgetManager,
+      int widgetId) {
     long now = System.currentTimeMillis();
-    long phaseHuntStartTime = now - SHOW_EVENT_AFTER_PASSED_AWAY_TIME;
-    if (true) {// debug only
-      phaseHuntStartTime += DEBUG_ADDITIONAL_TIME;
-      now += DEBUG_ADDITIONAL_TIME;
-      Log.d("debug", "now: " + new Date(now) + " (debug time: " + DEBUG_ADDITIONAL_TIME + " ms)");
-    }
     WidgetPreferences preferences = WidgetPreferences.initFromPreferences(context, widgetId);
     DateFormat datePattern = new SimpleDateFormat(preferences.getDatePattern());
-    List<MoonEvent> moonEvents = _moonAlgorithm.getNextMoonEvents(MoonUtil.newCalender(phaseHuntStartTime), 3,
-        EnumSet.of(MoonEventType.NEW_MOON, MoonEventType.FULL_MOON));
+    List<MoonEvent> moonEvents = moontimeService.getNextMoonEvents(3);
 
     SpannableBuilder builder = new SpannableBuilder();
     MoonEvent nextMoonEvent = null;
@@ -138,25 +128,25 @@ public class MoontimeWidget extends AppWidgetProvider {
   enum Action {
     DEBUG_ADD_TIME(R.id.debug_AddTimeButton) {
       @Override
-      public void execute(MoontimeWidget moontimeWidget, Context context) {
-        MoontimeWidget.DEBUG_ADDITIONAL_TIME += Util.hoursToMillis(12);
-        updateViews(context);
+      public void execute(MoontimeService moontimeService, MoontimeWidget moontimeWidget, Context context) {
+        moontimeService.setDebugAdditionalTime(moontimeService.getDebugAdditionalTime() + Util.hoursToMillis(12));
+        updateViews(moontimeService, context);
       }
     },
 
     DEBUG_REMOVE_TIME(R.id.debug_RemoveTimeButton) {
       @Override
-      public void execute(MoontimeWidget moontimeWidget, Context context) {
-        MoontimeWidget.DEBUG_ADDITIONAL_TIME -= Util.hoursToMillis(12);
-        updateViews(context);
+      public void execute(MoontimeService moontimeService, MoontimeWidget moontimeWidget, Context context) {
+        moontimeService.setDebugAdditionalTime(moontimeService.getDebugAdditionalTime() - Util.hoursToMillis(12));
+        updateViews(moontimeService, context);
       }
     },
 
     RESET_ADD_TIME(R.id.debug_ResetTimeButton) {
       @Override
-      public void execute(MoontimeWidget moontimeWidget, Context context) {
-        MoontimeWidget.DEBUG_ADDITIONAL_TIME = 0;
-        updateViews(context);
+      public void execute(MoontimeService moontimeService, MoontimeWidget moontimeWidget, Context context) {
+        moontimeService.setDebugAdditionalTime(0);
+        updateViews(moontimeService, context);
       }
     };
 
@@ -166,7 +156,7 @@ public class MoontimeWidget extends AppWidgetProvider {
       _id = id;
     }
 
-    public abstract void execute(MoontimeWidget moontimeWidget, Context context);
+    public abstract void execute(MoontimeService moontimeService, MoontimeWidget moontimeWidget, Context context);
 
     public int getId() {
       return _id;
@@ -179,12 +169,12 @@ public class MoontimeWidget extends AppWidgetProvider {
       return PendingIntent.getBroadcast(context, 0, i, 0);
     }
 
-    private static void updateViews(Context context) {
+    private static void updateViews(MoontimeService moontimeService, Context context) {
       AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
       for (ComponentName provider : WIDGET_PROVIDERS) {
         int[] ids = appWidgetManager.getAppWidgetIds(provider);
         for (int widgetId : ids) {
-          updateView(context, appWidgetManager, widgetId);
+          updateView(moontimeService, context, appWidgetManager, widgetId);
         }
       }
     }

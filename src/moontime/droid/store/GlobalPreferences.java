@@ -3,6 +3,8 @@ package moontime.droid.store;
 import java.io.IOException;
 import java.util.List;
 
+import moontime.MoonEvent;
+import moontime.MoonEventType;
 import moontime.droid.Reminder;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
@@ -13,6 +15,7 @@ import org.codehaus.jackson.type.TypeReference;
 
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.util.Log;
 
 import com.google.inject.Inject;
 import com.google.inject.Singleton;
@@ -21,7 +24,6 @@ import com.google.inject.Singleton;
 public class GlobalPreferences {
 
   public static final String GLOBAL_PREFERENCES = "moontime.droid.preferences";
-  private static final String PREFERENCE_ENTRY_REMINDERS = "reminders";
 
   private final ObjectMapper _objectMapper = new ObjectMapper();
   private final SharedPreferences _preferences;
@@ -35,25 +37,57 @@ public class GlobalPreferences {
         JsonAutoDetect.Visibility.ANY));
   }
 
-  public List<Reminder> getReminders() {
-    return this.<List<Reminder>> loadFromJson(PREFERENCE_ENTRY_REMINDERS, "[]", new TypeReference<List<Reminder>>() {
-    });
+  private static String getRemindersKey(MoonEvent event) {
+    return "reminders." + event.getType().name();
   }
 
-  public void addReminder(Reminder reminder) {
-    List<Reminder> reminders = getReminders();
+  private static String getRemindersLastUpdated(MoonEventType eventType) {
+    return "reminders." + eventType.name().toLowerCase() + ".last-updated";
+  }
+
+  public void resetLastReminderUpdate() {
+    Editor editor = _preferences.edit();
+    for (MoonEventType moonEventType : MoonEventType.values()) {
+      editor.remove(getRemindersLastUpdated(moonEventType));
+    }
+    editor.commit();
+  }
+
+  public List<Reminder> getReminders(MoonEvent event, boolean checkExpiration) {
+    List<Reminder> reminders = this.<List<Reminder>> loadFromJson(getRemindersKey(event), "[]",
+        new TypeReference<List<Reminder>>() {
+        });
+    if (checkExpiration && !reminders.isEmpty()) {
+      long eventTime = event.getDate().getTime();
+      long lastUpdated = _preferences.getLong(getRemindersLastUpdated(event.getType()), eventTime);
+      Log.d("debug", "check expiration: " + lastUpdated + " / " + eventTime);
+      if (Math.abs(eventTime - lastUpdated) > 1000 * 60 * 60 * 24) {
+        Log.d("debug", "expire checked reminders for " + event.getType().getDisplayName());
+        for (Reminder reminder : reminders) {
+          reminder.setChecked(false);
+        }
+      }
+    }
+    return reminders;
+  }
+
+  public void addReminder(MoonEvent event, Reminder reminder) {
+    List<Reminder> reminders = getReminders(event, false);
     reminders.add(reminder);
-    storeAsJson(PREFERENCE_ENTRY_REMINDERS, reminders);
+    storeAsJson(getRemindersKey(event), reminders);
   }
 
-  public void removeReminder(int position) {
-    List<Reminder> reminders = getReminders();
+  public void removeReminder(MoonEvent event, int position) {
+    List<Reminder> reminders = getReminders(event, false);
     reminders.remove(position);
-    storeAsJson(PREFERENCE_ENTRY_REMINDERS, reminders);
+    storeAsJson(getRemindersKey(event), reminders);
   }
 
-  public void saveReminders(List<Reminder> reminders) {
-    storeAsJson(PREFERENCE_ENTRY_REMINDERS, reminders);
+  public void saveReminders(MoonEvent event, List<Reminder> reminders) {
+    Editor editor = _preferences.edit();
+    editor.putLong(getRemindersLastUpdated(event.getType()), event.getDate().getTime());
+    editor.commit();
+    storeAsJson(getRemindersKey(event), reminders);
   }
 
   private void storeAsJson(String prefKey, Object prefValue) {

@@ -1,12 +1,8 @@
 package moontime.droid;
 
-import java.util.Calendar;
-import java.util.EnumSet;
 import java.util.List;
 
 import moontime.MoonEvent;
-import moontime.MoonEventType;
-import moontime.MoonPhaseAlgorithm;
 import moontime.droid.store.GlobalPreferences;
 import roboguice.activity.RoboListActivity;
 import android.app.Dialog;
@@ -28,21 +24,21 @@ import com.google.inject.Inject;
 public class ReminderActivity extends RoboListActivity {
 
   @Inject
-  protected MoonPhaseAlgorithm _moonAlgorithm;
+  protected MoontimeService _moontimeService;
   @Inject
   protected GlobalPreferences _globalPreferences;
+  private MoonEvent _nextMoonEvent;
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.reminder_layout);
-    List<MoonEvent> nextMoonEvents = _moonAlgorithm.getNextMoonEvents(Calendar.getInstance(), 1,
-        EnumSet.of(MoonEventType.FULL_MOON, MoonEventType.FULL_MOON));
-    // TODO introduce MoonService for proper moon events (24 h back, etc..)
-    setTitle(nextMoonEvents.get(0).getType() + " - Reminders");
+    _nextMoonEvent = _moontimeService.getNextMoonEvent();
+    // TODO +/- hours to event ? in titel
+    setTitle(_nextMoonEvent.getType().getDisplayName() + " - Reminders");
 
     getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
-    List<Reminder> reminders = _globalPreferences.getReminders();
+    List<Reminder> reminders = _globalPreferences.getReminders(_nextMoonEvent, true);
     setListAdapter(new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_multiple_choice, reminders));
     for (int i = 0; i < reminders.size(); i++) {
       getListView().setItemChecked(i, reminders.get(i).isChecked());
@@ -63,7 +59,7 @@ public class ReminderActivity extends RoboListActivity {
     int menuItemIndex = item.getItemId();
     if (menuItemIndex == 0) {
       // delete
-      _globalPreferences.removeReminder(info.position);
+      _globalPreferences.removeReminder(_nextMoonEvent, info.position);
       getListAdapter().remove(getListAdapter().getItem(info.position));
     } else {
       throw new UnsupportedOperationException(menuItemIndex + "");
@@ -90,7 +86,7 @@ public class ReminderActivity extends RoboListActivity {
       public void onClick(View v) {
         EditText reminderText = (EditText) dialog.findViewById(R.id.newReminderText);
         Reminder reminder = new Reminder(reminderText.getText().toString());
-        _globalPreferences.addReminder(reminder);
+        _globalPreferences.addReminder(_nextMoonEvent, reminder);
         ReminderActivity.this.getListAdapter().add(reminder);
         dialog.dismiss();
       }
@@ -113,11 +109,11 @@ public class ReminderActivity extends RoboListActivity {
 
   @Override
   protected void onPause() {
-    List<Reminder> reminders = _globalPreferences.getReminders();
+    List<Reminder> reminders = _globalPreferences.getReminders(_nextMoonEvent, false);
     for (int i = 0; i < reminders.size(); i++) {
       reminders.get(i).setChecked(getListView().isItemChecked(i));
     }
-    _globalPreferences.saveReminders(reminders);
+    _globalPreferences.saveReminders(_nextMoonEvent, reminders);
     super.onPause();
   }
 }
