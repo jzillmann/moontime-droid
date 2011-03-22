@@ -17,6 +17,10 @@ public class Reminder {
     return _text;
   }
 
+  public void setText(String text) {
+    _text = text;
+  }
+
   public boolean isChecked() {
     return _checked;
   }

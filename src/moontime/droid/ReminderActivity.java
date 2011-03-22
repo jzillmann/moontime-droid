@@ -34,7 +34,7 @@ public class ReminderActivity extends RoboListActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.reminder_layout);
     _nextMoonEvent = _moontimeService.getNextMoonEvent();
-    // TODO +/- hours to event ? in titel
+    // TODO +/- hours to event ? in title
     setTitle(_nextMoonEvent.getType().getDisplayName() + " - Reminders");
 
     getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
@@ -50,20 +50,17 @@ public class ReminderActivity extends RoboListActivity {
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
     menu.setHeaderTitle(getListAdapter().getItem(info.position).getText());
-    menu.add(Menu.NONE, 0, 0, "Delete");
+    for (ReminderMenu reminderMenu : ReminderMenu.values()) {
+      menu.add(Menu.NONE, reminderMenu.ordinal(), reminderMenu.ordinal(), reminderMenu.getDisplayName());
+    }
   }
 
   @Override
   public boolean onContextItemSelected(MenuItem item) {
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
     int menuItemIndex = item.getItemId();
-    if (menuItemIndex == 0) {
-      // delete
-      _globalPreferences.removeReminder(_nextMoonEvent, info.position);
-      getListAdapter().remove(getListAdapter().getItem(info.position));
-    } else {
-      throw new UnsupportedOperationException(menuItemIndex + "");
-    }
+    ReminderMenu reminderMenu = ReminderMenu.values()[menuItemIndex];
+    reminderMenu.execute(this, info.position);
     return true;
   }
 
@@ -74,6 +71,10 @@ public class ReminderActivity extends RoboListActivity {
   }
 
   public void newReminder(View view) {
+    newReminder(view, null, -1);
+  }
+
+  protected void newReminder(View view, final Reminder existingReminder, final int existingReminderIndex) {
     final Dialog dialog = new Dialog(this);
     dialog.setContentView(R.layout.new_reminder_dialog);
     dialog.setTitle("Create Reminder");
@@ -81,13 +82,27 @@ public class ReminderActivity extends RoboListActivity {
 
     Button submitButton = (Button) dialog.findViewById(R.id.Submit);
     Button cancelButton = (Button) dialog.findViewById(R.id.Cancel);
+    final EditText reminderText = (EditText) dialog.findViewById(R.id.newReminderText);
+    if (existingReminder != null) {
+      reminderText.setText(existingReminder.getText());
+    }
     submitButton.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View v) {
-        EditText reminderText = (EditText) dialog.findViewById(R.id.newReminderText);
-        Reminder reminder = new Reminder(reminderText.getText().toString());
-        _globalPreferences.addReminder(_nextMoonEvent, reminder);
-        ReminderActivity.this.getListAdapter().add(reminder);
+        String text = reminderText.getText().toString();
+        if (existingReminder != null) {
+          List<Reminder> reminders = _globalPreferences.getReminders(_nextMoonEvent, false);
+          reminders.get(existingReminderIndex).setText(text);
+          _globalPreferences.saveReminders(_nextMoonEvent, reminders);
+          getListAdapter().clear();
+          for (Reminder reminder : reminders) {
+            getListAdapter().add(reminder);
+          }
+        } else {
+          Reminder reminder = new Reminder(text);
+          _globalPreferences.addReminder(_nextMoonEvent, reminder);
+          ReminderActivity.this.getListAdapter().add(reminder);
+        }
         dialog.dismiss();
       }
     });
@@ -98,7 +113,6 @@ public class ReminderActivity extends RoboListActivity {
       }
     });
     dialog.show();
-
   }
 
   @SuppressWarnings("unchecked")
@@ -115,5 +129,62 @@ public class ReminderActivity extends RoboListActivity {
     }
     _globalPreferences.saveReminders(_nextMoonEvent, reminders);
     super.onPause();
+  }
+
+  private static enum ReminderMenu {
+    EDIT("Edit") {
+      @Override
+      public void execute(ReminderActivity activity, int reminderIndex) {
+        Reminder reminder = activity.getListAdapter().getItem(reminderIndex);
+        activity.newReminder(null, reminder, reminderIndex);
+      }
+    },
+    DELETE("Delete") {
+      @Override
+      public void execute(ReminderActivity activity, int reminderIndex) {
+        activity._globalPreferences.removeReminder(activity._nextMoonEvent, reminderIndex);
+        activity.getListAdapter().remove(activity.getListAdapter().getItem(reminderIndex));
+      }
+    },
+    MOVE_UP("Move Up") {
+      @Override
+      public void execute(ReminderActivity activity, int reminderIndex) {
+        if (reminderIndex > 0) {
+          moveReminderPostion(activity, reminderIndex, reminderIndex - 1);
+        }
+      }
+    },
+    MOVE_DOWN("Move Down") {
+      @Override
+      public void execute(ReminderActivity activity, int reminderIndex) {
+        if (reminderIndex < activity.getListAdapter().getCount() - 1) {
+          moveReminderPostion(activity, reminderIndex, reminderIndex + 1);
+        }
+      }
+    };
+
+    private final String _displayName;
+
+    private ReminderMenu(String displayName) {
+      _displayName = displayName;
+    }
+
+    public String getDisplayName() {
+      return _displayName;
+    }
+
+    public abstract void execute(ReminderActivity activity, int reminderIndex);
+
+    private static void moveReminderPostion(ReminderActivity activity, int reminderIndex, int toIndex) {
+      List<Reminder> reminders = activity._globalPreferences.getReminders(activity._nextMoonEvent, false);
+      Reminder reminder = reminders.remove(reminderIndex);
+      reminders.add(toIndex, reminder);
+      activity._globalPreferences.saveReminders(activity._nextMoonEvent, reminders);
+
+      ArrayAdapter<Reminder> listAdapter = activity.getListAdapter();
+      reminder = listAdapter.getItem(reminderIndex);
+      listAdapter.remove(reminder);
+      listAdapter.insert(reminder, toIndex);
+    }
   }
 }
