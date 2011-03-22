@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -33,17 +34,48 @@ public class ReminderActivity extends RoboListActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.reminder_layout);
+    getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     _nextMoonEvent = _moontimeService.getNextMoonEvent();
+
+    fillListAdapter();
+    registerForContextMenu(getListView());
+  }
+
+  private void fillListAdapter() {
     // TODO +/- hours to event ? in title
     setTitle(_nextMoonEvent.getType().getDisplayName() + " - Reminders");
-
-    getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     List<Reminder> reminders = _globalPreferences.getReminders(_nextMoonEvent, true);
     setListAdapter(new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_multiple_choice, reminders));
     for (int i = 0; i < reminders.size(); i++) {
       getListView().setItemChecked(i, reminders.get(i).isChecked());
     }
-    registerForContextMenu(getListView());
+  }
+
+  @Override
+  public boolean onCreateOptionsMenu(Menu menu) {
+    MenuInflater inflater = getMenuInflater();
+    inflater.inflate(R.menu.reminders_menu, menu);
+    setSwitchToMenuItemTitle(menu.findItem(R.id.switch_to));
+    return true;
+  }
+
+  private void setSwitchToMenuItemTitle(MenuItem switchToMenuItem) {
+    switchToMenuItem.setTitle("Switch to " + _nextMoonEvent.getType().opposite().getDisplayName());
+  }
+
+  @Override
+  public boolean onOptionsItemSelected(MenuItem item) {
+    // Handle item selection
+    switch (item.getItemId()) {
+    case R.id.switch_to:
+      saveChecks();
+      _nextMoonEvent = new MoonEvent(_nextMoonEvent.getType().opposite(), _nextMoonEvent.getDate());
+      setSwitchToMenuItemTitle(item);
+      fillListAdapter();
+      return true;
+    default:
+      return super.onOptionsItemSelected(item);
+    }
   }
 
   @Override
@@ -123,12 +155,16 @@ public class ReminderActivity extends RoboListActivity {
 
   @Override
   protected void onPause() {
+    saveChecks();
+    super.onPause();
+  }
+
+  private void saveChecks() {
     List<Reminder> reminders = _globalPreferences.getReminders(_nextMoonEvent, false);
     for (int i = 0; i < reminders.size(); i++) {
       reminders.get(i).setChecked(getListView().isItemChecked(i));
     }
     _globalPreferences.saveReminders(_nextMoonEvent, reminders);
-    super.onPause();
   }
 
   private static enum ReminderMenu {
