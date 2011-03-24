@@ -71,18 +71,6 @@ public class GlobalPreferences {
     return reminders;
   }
 
-  public void addReminder(MoonEvent event, Reminder reminder) {
-    List<Reminder> reminders = getReminders(event, false);
-    reminders.add(reminder);
-    storeAsJson(getRemindersKey(event), reminders);
-  }
-
-  public void removeReminder(MoonEvent event, int position) {
-    List<Reminder> reminders = getReminders(event, false);
-    reminders.remove(position);
-    storeAsJson(getRemindersKey(event), reminders);
-  }
-
   public void saveReminders(MoonEvent event, List<Reminder> reminders) {
     Editor editor = _preferences.edit();
     editor.putLong(getRemindersLastUpdated(event.getType()), event.getDate().getTime());

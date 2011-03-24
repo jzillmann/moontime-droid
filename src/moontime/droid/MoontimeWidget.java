@@ -28,23 +28,30 @@ import com.google.inject.Inject;
 
 public class MoontimeWidget extends AppWidgetProvider {
 
+  private static final Class<?> ON_CLICK_ACTIVITY = MoontimeTabActivity.class;
+
   @Inject
   protected MoontimeService _moontimeService;
 
   @Override
   public void onUpdate(Context context, AppWidgetManager appWidgetManager, int[] appWidgetIds) {
+    updateService();
+    for (int widgetId : appWidgetIds) {
+      updateView(_moontimeService, context, appWidgetManager, widgetId);
+    }
+  }
+
+  private void updateService() {
     if (_moontimeService == null) {
       _moontimeService = MoontimeApplication._moontimeServiceInstance;
       // don't know how to bind here
-    }
-    for (int widgetId : appWidgetIds) {
-      updateView(_moontimeService, context, appWidgetManager, widgetId);
     }
   }
 
   @Override
   public void onReceive(Context context, Intent intent) {
     super.onReceive(context, intent);
+    updateService();
     if (intent.hasCategory(Intent.CATEGORY_ALTERNATIVE)) {
       Uri data = intent.getData();
       int ordinal = Integer.parseInt(data.getSchemeSpecificPart());
@@ -83,7 +90,7 @@ public class MoontimeWidget extends AppWidgetProvider {
     views.setTextViewText(R.id.nextMoons, builder);
     views.setTextColor(R.id.nextMoons, context.getResources().getColor(preferences.getTheme().getTextColor()));
 
-    PendingIntent intent = PendingIntent.getActivity(context, 0, new Intent(context, ReminderActivity.class), 0);
+    PendingIntent intent = PendingIntent.getActivity(context, 0, new Intent(context, ON_CLICK_ACTIVITY), 0);
     views.setOnClickPendingIntent(R.id.moonPic, intent);
 
     int moonPicId;

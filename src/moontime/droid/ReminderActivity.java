@@ -5,6 +5,7 @@ import java.util.List;
 import moontime.MoonEvent;
 import moontime.droid.store.GlobalPreferences;
 import roboguice.activity.RoboListActivity;
+import roboguice.inject.InjectView;
 import android.app.Dialog;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -21,6 +22,8 @@ import android.widget.EditText;
 import android.widget.ListView;
 
 import com.google.inject.Inject;
+import com.google.inject.internal.Lists;
+import com.google.inject.internal.Nullable;
 
 public class ReminderActivity extends RoboListActivity {
 
@@ -28,26 +31,34 @@ public class ReminderActivity extends RoboListActivity {
   protected MoontimeService _moontimeService;
   @Inject
   protected GlobalPreferences _globalPreferences;
+  // TODO why inject fails
+  @Nullable
+  @InjectView(R.id.switchLists)
+  protected Button _switchListsButton;
   private MoonEvent _nextMoonEvent;
+  private List<Reminder> _reminders = Lists.newArrayList();
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setListAdapter(new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_multiple_choice, _reminders));
     setContentView(R.layout.reminder_layout);
     getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     _nextMoonEvent = _moontimeService.getNextMoonEvent();
 
-    fillListAdapter();
+    _switchListsButton = (Button) findViewById(R.id.switchLists);
+    updateListAdapter();
     registerForContextMenu(getListView());
   }
 
-  private void fillListAdapter() {
+  private void updateListAdapter() {
     // TODO +/- hours to event ? in title
     setTitle(_nextMoonEvent.getType().getDisplayName() + " - Reminders");
-    List<Reminder> reminders = _globalPreferences.getReminders(_nextMoonEvent, true);
-    setListAdapter(new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_multiple_choice, reminders));
-    for (int i = 0; i < reminders.size(); i++) {
-      getListView().setItemChecked(i, reminders.get(i).isChecked());
+    _switchListsButton.setText("Switch to " + _nextMoonEvent.getType().opposite().getDisplayName());
+    _reminders.clear();
+    _reminders.addAll(_globalPreferences.getReminders(_nextMoonEvent, true));
+    for (int i = 0; i < _reminders.size(); i++) {
+      getListView().setItemChecked(i, _reminders.get(i).isChecked());
     }
   }
 
@@ -55,24 +66,17 @@ public class ReminderActivity extends RoboListActivity {
   public boolean onCreateOptionsMenu(Menu menu) {
     MenuInflater inflater = getMenuInflater();
     inflater.inflate(R.menu.reminders_menu, menu);
-    setSwitchToMenuItemTitle(menu.findItem(R.id.switch_to));
     return true;
-  }
-
-  private void setSwitchToMenuItemTitle(MenuItem switchToMenuItem) {
-    switchToMenuItem.setTitle("Switch to " + _nextMoonEvent.getType().opposite().getDisplayName());
   }
 
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
     // Handle item selection
     switch (item.getItemId()) {
-    case R.id.switch_to:
-      saveChecks();
-      _nextMoonEvent = new MoonEvent(_nextMoonEvent.getType().opposite(), _nextMoonEvent.getDate());
-      setSwitchToMenuItemTitle(item);
-      fillListAdapter();
-      return true;
+    case R.id.clearChecks:
+      for (int i = 0; i < getListAdapter().getCount(); i++) {
+        getListView().setItemChecked(i, false);
+      }
     default:
       return super.onOptionsItemSelected(item);
     }
@@ -82,7 +86,7 @@ public class ReminderActivity extends RoboListActivity {
   public void onCreateContextMenu(ContextMenu menu, View v, ContextMenuInfo menuInfo) {
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) menuInfo;
     menu.setHeaderTitle(getListAdapter().getItem(info.position).getText());
-    for (ReminderMenu reminderMenu : ReminderMenu.values()) {
+    for (ReminderContextMenu reminderMenu : ReminderContextMenu.values()) {
       menu.add(Menu.NONE, reminderMenu.ordinal(), reminderMenu.ordinal(), reminderMenu.getDisplayName());
     }
   }
@@ -91,15 +95,15 @@ public class ReminderActivity extends RoboListActivity {
   public boolean onContextItemSelected(MenuItem item) {
     AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo) item.getMenuInfo();
     int menuItemIndex = item.getItemId();
-    ReminderMenu reminderMenu = ReminderMenu.values()[menuItemIndex];
+    ReminderContextMenu reminderMenu = ReminderContextMenu.values()[menuItemIndex];
     reminderMenu.execute(this, info.position);
     return true;
   }
 
-  public void clearCheckboxes(View view) {
-    for (int i = 0; i < getListAdapter().getCount(); i++) {
-      getListView().setItemChecked(i, false);
-    }
+  public void switchLists(View view) {
+    saveChecks();
+    _nextMoonEvent = new MoonEvent(_nextMoonEvent.getType().opposite(), _nextMoonEvent.getDate());
+    updateListAdapter();
   }
 
   public void newReminder(View view) {
@@ -109,7 +113,11 @@ public class ReminderActivity extends RoboListActivity {
   protected void newReminder(View view, final Reminder existingReminder, final int existingReminderIndex) {
     final Dialog dialog = new Dialog(this);
     dialog.setContentView(R.layout.new_reminder_dialog);
-    dialog.setTitle("Create Reminder");
+    if (existingReminder == null) {
+      dialog.setTitle("Create Reminder");
+    } else {
+      dialog.setTitle("Edit Reminder");
+    }
     dialog.setOwnerActivity(this);
 
     Button submitButton = (Button) dialog.findViewById(R.id.Submit);
@@ -123,17 +131,14 @@ public class ReminderActivity extends RoboListActivity {
       public void onClick(View v) {
         String text = reminderText.getText().toString();
         if (existingReminder != null) {
-          List<Reminder> reminders = _globalPreferences.getReminders(_nextMoonEvent, false);
-          reminders.get(existingReminderIndex).setText(text);
-          _globalPreferences.saveReminders(_nextMoonEvent, reminders);
-          getListAdapter().clear();
-          for (Reminder reminder : reminders) {
-            getListAdapter().add(reminder);
-          }
+          _reminders.get(existingReminderIndex).setText(text);
+          _globalPreferences.saveReminders(_nextMoonEvent, _reminders);
+          getListAdapter().notifyDataSetChanged();
         } else {
           Reminder reminder = new Reminder(text);
-          _globalPreferences.addReminder(_nextMoonEvent, reminder);
-          ReminderActivity.this.getListAdapter().add(reminder);
+          _reminders.add(reminder);
+          _globalPreferences.saveReminders(_nextMoonEvent, _reminders);
+          ReminderActivity.this.getListAdapter().notifyDataSetChanged();
         }
         dialog.dismiss();
       }
@@ -160,26 +165,25 @@ public class ReminderActivity extends RoboListActivity {
   }
 
   private void saveChecks() {
-    List<Reminder> reminders = _globalPreferences.getReminders(_nextMoonEvent, false);
-    for (int i = 0; i < reminders.size(); i++) {
-      reminders.get(i).setChecked(getListView().isItemChecked(i));
+    for (int i = 0; i < _reminders.size(); i++) {
+      _reminders.get(i).setChecked(getListView().isItemChecked(i));
     }
-    _globalPreferences.saveReminders(_nextMoonEvent, reminders);
+    _globalPreferences.saveReminders(_nextMoonEvent, _reminders);
   }
 
-  private static enum ReminderMenu {
+  private static enum ReminderContextMenu {
     EDIT("Edit") {
       @Override
       public void execute(ReminderActivity activity, int reminderIndex) {
-        Reminder reminder = activity.getListAdapter().getItem(reminderIndex);
-        activity.newReminder(null, reminder, reminderIndex);
+        activity.newReminder(null, activity._reminders.get(reminderIndex), reminderIndex);
       }
     },
     DELETE("Delete") {
       @Override
       public void execute(ReminderActivity activity, int reminderIndex) {
-        activity._globalPreferences.removeReminder(activity._nextMoonEvent, reminderIndex);
-        activity.getListAdapter().remove(activity.getListAdapter().getItem(reminderIndex));
+        activity._reminders.remove(reminderIndex);
+        activity._globalPreferences.saveReminders(activity._nextMoonEvent, activity._reminders);
+        activity.getListAdapter().notifyDataSetChanged();
       }
     },
     MOVE_UP("Move Up") {
@@ -201,7 +205,7 @@ public class ReminderActivity extends RoboListActivity {
 
     private final String _displayName;
 
-    private ReminderMenu(String displayName) {
+    private ReminderContextMenu(String displayName) {
       _displayName = displayName;
     }
 
@@ -212,15 +216,10 @@ public class ReminderActivity extends RoboListActivity {
     public abstract void execute(ReminderActivity activity, int reminderIndex);
 
     private static void moveReminderPostion(ReminderActivity activity, int reminderIndex, int toIndex) {
-      List<Reminder> reminders = activity._globalPreferences.getReminders(activity._nextMoonEvent, false);
-      Reminder reminder = reminders.remove(reminderIndex);
-      reminders.add(toIndex, reminder);
-      activity._globalPreferences.saveReminders(activity._nextMoonEvent, reminders);
-
-      ArrayAdapter<Reminder> listAdapter = activity.getListAdapter();
-      reminder = listAdapter.getItem(reminderIndex);
-      listAdapter.remove(reminder);
-      listAdapter.insert(reminder, toIndex);
+      Reminder reminder = activity._reminders.remove(reminderIndex);
+      activity._reminders.add(toIndex, reminder);
+      activity._globalPreferences.saveReminders(activity._nextMoonEvent, activity._reminders);
+      activity.getListAdapter().notifyDataSetChanged();
     }
   }
 }

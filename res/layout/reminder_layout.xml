@@ -8,14 +8,17 @@
   <ListView  
 	     android:id="@android:id/list"
 	     android:layout_width="fill_parent" 
-	     android:layout_height="wrap_content" 
-   />
+	     android:layout_height="wrap_content"
+	     android:layout_weight="1.0"
+   > 
+  </ListView>
   
   <Button   
+  	android:id="@+id/switchLists"
+  	android:text="bkjkbs"
 	android:layout_width="fill_parent"
 	android:layout_height="wrap_content" 
-	android:text="Clear Checkboxes"
-	android:onClick="clearCheckboxes" 
+	android:onClick="switchLists" 
   />
   
   <Button   
@@ -23,7 +26,6 @@
 	android:layout_height="wrap_content" 
 	android:text="New Reminder" 
 	android:onClick="newReminder"
-  />
-  
+  />  
   
 </LinearLayout>
