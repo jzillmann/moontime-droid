@@ -23,7 +23,6 @@ import android.widget.ListView;
 
 import com.google.inject.Inject;
 import com.google.inject.internal.Lists;
-import com.google.inject.internal.Nullable;
 
 public class ReminderActivity extends RoboListActivity {
 
@@ -31,8 +30,6 @@ public class ReminderActivity extends RoboListActivity {
   protected MoontimeService _moontimeService;
   @Inject
   protected GlobalPreferences _globalPreferences;
-  // TODO why inject fails
-  @Nullable
   @InjectView(R.id.switchLists)
   protected Button _switchListsButton;
   private MoonEvent _nextMoonEvent;
@@ -41,12 +38,11 @@ public class ReminderActivity extends RoboListActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setListAdapter(new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_multiple_choice, _reminders));
     setContentView(R.layout.reminder_layout);
+    setListAdapter(new ArrayAdapter<Reminder>(this, android.R.layout.simple_list_item_multiple_choice, _reminders));
     getListView().setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
     _nextMoonEvent = _moontimeService.getNextMoonEvent();
 
-    _switchListsButton = (Button) findViewById(R.id.switchLists);
     updateListAdapter();
     registerForContextMenu(getListView());
   }
