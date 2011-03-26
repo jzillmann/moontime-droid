@@ -16,9 +16,9 @@
 		               android:resource="@xml/widget_provider" />
 		</receiver>
 
-    <activity android:name="ReminderActivity"></activity>
+<activity android:name="ReminderActivity"></activity>
 <activity android:name="CalenderActivity"></activity>
-<activity android:name="MoontimeTabActivity"></activity>
+<activity android:name="MoontimeTabActivity" android:theme="@style/Theme.Tabs"></activity>
 
 </application>
 

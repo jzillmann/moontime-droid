@@ -43,6 +43,7 @@ public class CalenderActivity extends RoboActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.calender_layout);
+    setTitle("asdasd");
 
     WidgetPreferences preferences = WidgetPreferences.initFromPreferences(this, _widgetId);
     _datePattern = new SimpleDateFormat(preferences.getDatePattern());

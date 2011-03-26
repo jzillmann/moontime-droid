@@ -64,11 +64,14 @@ public final class R {
         public static final int ok=0x7f050001;
     }
     public static final class style {
-        public static final int Config=0x7f060000;
-        public static final int Config_Label=0x7f060001;
+        public static final int Config=0x7f060001;
+        public static final int Config_Label=0x7f060002;
         /**  visible/gone 
          */
-        public static final int DebugButton=0x7f060002;
+        public static final int DebugButton=0x7f060003;
+        /**  removes the gradient on top of the tab-titles 
+         */
+        public static final int Theme_Tabs=0x7f060000;
     }
     public static final class xml {
         public static final int widget_provider=0x7f040000;

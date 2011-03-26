@@ -2,6 +2,11 @@
 
 <resources>
 
+	<!-- removes the gradient on top of the tab-titles -->
+	<style name="Theme.Tabs" parent="android:style/Theme.Black">
+	    <item name="android:windowContentOverlay">@null</item>
+	</style>
+
     <style name="Config">
 		<item name="android:layout_width">fill_parent</item>
 		<item name="android:layout_height">wrap_content</item>
