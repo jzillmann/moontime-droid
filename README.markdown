@@ -17,10 +17,10 @@ USED LIBRARIES
 
 Thanks to following libraries which made development more easy!
 
-+ http://code.google.com/p/guava-libraries/
-+ http://code.google.com/p/google-guice/
-+ http://code.google.com/p/roboguice/
-+ http://code.google.com/p/android-calendar-view
-+ http://code.google.com/p/android-dateslider/
-+ http://jackson.codehaus.org/
-+ https://github.com/jzillmann/moontime
++ (http://code.google.com/p/guava-libraries/)
++ (http://code.google.com/p/google-guice/)
++ (http://code.google.com/p/roboguice/)
++ (http://code.google.com/p/android-calendar-view
++ (http://code.google.com/p/android-dateslider/)
++ [http://jackson.codehaus.org/]
++ [https://github.com/jzillmann/moontime]
