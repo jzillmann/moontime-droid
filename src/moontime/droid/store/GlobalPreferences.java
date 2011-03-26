@@ -5,7 +5,7 @@ import java.util.List;
 
 import moontime.MoonEvent;
 import moontime.MoonEventType;
-import moontime.droid.Reminder;
+import moontime.droid.entity.Reminder;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.map.DeserializationConfig;

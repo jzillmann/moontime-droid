@@ -3,6 +3,8 @@ package moontime.droid;
 import java.util.List;
 
 import moontime.MoonEvent;
+import moontime.droid.entity.Reminder;
+import moontime.droid.service.MoontimeService;
 import moontime.droid.store.GlobalPreferences;
 import roboguice.activity.RoboListActivity;
 import roboguice.inject.InjectView;
@@ -45,6 +47,12 @@ public class ReminderActivity extends RoboListActivity {
 
     updateListAdapter();
     registerForContextMenu(getListView());
+  }
+
+  @Override
+  protected void onResume() {
+    setTitle(_nextMoonEvent.getType().getDisplayName() + " - Reminders");
+    super.onResume();
   }
 
   private void updateListAdapter() {

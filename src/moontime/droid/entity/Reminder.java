@@ -1,4 +1,4 @@
-package moontime.droid;
+package moontime.droid.entity;
 
 public class Reminder {
 

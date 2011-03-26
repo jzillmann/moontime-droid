@@ -8,6 +8,7 @@ import java.util.List;
 
 import moontime.MoonEvent;
 import moontime.MoonUtil;
+import moontime.droid.service.MoontimeService;
 import moontime.droid.store.WidgetPreferences;
 import moontime.droid.util.Util;
 import roboguice.activity.RoboActivity;
@@ -43,7 +44,6 @@ public class CalenderActivity extends RoboActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.calender_layout);
-    setTitle("asdasd");
 
     WidgetPreferences preferences = WidgetPreferences.initFromPreferences(this, _widgetId);
     _datePattern = new SimpleDateFormat(preferences.getDatePattern());
@@ -52,6 +52,12 @@ public class CalenderActivity extends RoboActivity {
     _dataSliderSet.addSlider(_yearSlider, new YearLabeler(), 200, 60);
     _dataSliderSet.addSlider(_monthSlider, new MonthLabeler(), 150, 60);
     _dataSliderSet.init();
+  }
+
+  @Override
+  protected void onResume() {
+    setTitle("Calender");
+    super.onResume();
   }
 
   private DataSliderSet _dataSliderSet = new DataSliderSet() {

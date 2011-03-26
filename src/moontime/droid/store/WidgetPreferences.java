@@ -2,7 +2,7 @@ package moontime.droid.store;
 
 import moontime.droid.R;
 import moontime.droid.WidgetConfigurationActivity;
-import moontime.droid.WidgetTheme;
+import moontime.droid.entity.WidgetTheme;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;

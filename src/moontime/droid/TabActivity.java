@@ -1,13 +1,13 @@
 package moontime.droid;
 
+import roboguice.activity.RoboTabActivity;
 import android.app.Activity;
-import android.app.TabActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 
-public class MoontimeTabActivity extends TabActivity {
+public class TabActivity extends RoboTabActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,12 @@ public class MoontimeTabActivity extends TabActivity {
     spec.setIndicator(title);
     spec.setContent(intent);
     return spec;
+  }
+
+  @Override
+  protected void onChildTitleChanged(Activity childActivity, CharSequence title) {
+    super.onChildTitleChanged(childActivity, title);
+    setTitle(title);
   }
   //
   // @Override

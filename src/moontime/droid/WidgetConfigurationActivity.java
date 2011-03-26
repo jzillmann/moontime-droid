@@ -1,5 +1,7 @@
 package moontime.droid;
 
+import moontime.droid.entity.WidgetTheme;
+import moontime.droid.service.MoontimeService;
 import moontime.droid.store.WidgetPreferences;
 import roboguice.activity.RoboActivity;
 import roboguice.inject.InjectView;
@@ -70,7 +72,7 @@ public class WidgetConfigurationActivity extends RoboActivity {
 
     // Push widget update to surface with newly set prefix
     AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context);
-    MoontimeWidget.updateView(_moontimeService, context, appWidgetManager, _widgetId);
+    WidgetProvider.updateView(_moontimeService, context, appWidgetManager, _widgetId);
 
     // Make sure we pass back the original appWidgetId
     Intent resultValue = new Intent();

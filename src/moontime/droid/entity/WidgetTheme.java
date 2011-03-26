@@ -1,4 +1,7 @@
-package moontime.droid;
+package moontime.droid.entity;
+
+import moontime.droid.R;
+import moontime.droid.R.drawable;
 
 public enum WidgetTheme {
 
