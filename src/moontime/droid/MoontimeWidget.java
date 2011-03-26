@@ -90,8 +90,11 @@ public class MoontimeWidget extends AppWidgetProvider {
     views.setTextViewText(R.id.nextMoons, builder);
     views.setTextColor(R.id.nextMoons, context.getResources().getColor(preferences.getTheme().getTextColor()));
 
-    PendingIntent intent = PendingIntent.getActivity(context, 0, new Intent(context, ON_CLICK_ACTIVITY), 0);
-    views.setOnClickPendingIntent(R.id.moonPic, intent);
+    Intent intent = new Intent(context, ON_CLICK_ACTIVITY);
+    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, widgetId);
+    views.setOnClickPendingIntent(R.id.moonPic,
+        PendingIntent.getActivity(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT));
 
     int moonPicId;
     if (nextMoonEvent.getType() == MoonEventType.FULL_MOON) {

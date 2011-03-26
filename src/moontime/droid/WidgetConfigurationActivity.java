@@ -40,6 +40,7 @@ public class WidgetConfigurationActivity extends RoboActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setContentView(R.layout.configuration_layout);
 
     // Set the result to CANCELED. This will cause the widget host to cancel
     // out of the widget placement if they press the back button.
@@ -56,7 +57,6 @@ public class WidgetConfigurationActivity extends RoboActivity {
     if (_widgetId == AppWidgetManager.INVALID_APPWIDGET_ID) {
       finish();
     }
-    setContentView(R.layout.configuration_layout);
     ArrayAdapter<WidgetTheme> adapter = new ArrayAdapter<WidgetTheme>(this, android.R.layout.simple_spinner_item,
         WidgetTheme.values());
     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);

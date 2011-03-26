@@ -16,7 +16,6 @@ public class MoontimeApplication extends RoboApplication {
   @Override
   protected void addApplicationModules(List<Module> modules) {
     modules.add(new MoontimeModule());
-
   }
 
   static class MoontimeModule extends AbstractModule {

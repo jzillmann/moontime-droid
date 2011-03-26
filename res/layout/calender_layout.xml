@@ -2,16 +2,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:orientation="vertical">
+    android:id="@+id/layout_calender"
+    android:orientation="vertical"
+    >
 
-    <TextView android:id="@+id/dateDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=""/>
+	<com.googlecode.android.widgets.DateSlider.ScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	   android:id="@+id/sliderYear"
+	   android:orientation="horizontal"
+	   android:layout_width="fill_parent"
+	   android:layout_height="fill_parent" 
+	   android:background="@drawable/slider_nosnap"
+	   android:paddingLeft="7px"
+	   android:paddingRight="7px"
+    /> 
+	
+	<com.googlecode.android.widgets.DateSlider.ScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	   android:id="@+id/sliderMonth"
+	   android:orientation="horizontal"
+	   android:layout_width="fill_parent"
+	   android:layout_height="fill_parent" 
+	   android:background="@drawable/slider_nosnap"
+	   android:paddingLeft="7px"
+	   android:paddingRight="7px"
+    /> 
 
-    <Button android:id="@+id/pickDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Change the date"/>
-
+	<TextView 
+		android:id="@+id/calender_text_moons" 
+		android:gravity="center" 
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent"
+		android:layout_centerInParent="true" 
+		android:textSize="25dp"
+	/>
+	
 </LinearLayout>

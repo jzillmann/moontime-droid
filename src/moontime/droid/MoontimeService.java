@@ -48,4 +48,8 @@ public class MoontimeService {
     return MOON_PHASE_ALGORITHM.getNextMoonEvents(MoonUtil.newCalender(phaseHuntStartTime), count, MOON_EVENT_TYPES);
   }
 
+  public List<MoonEvent> getNextMoonEvents(long startTime, int count) {
+    return MOON_PHASE_ALGORITHM.getNextMoonEvents(MoonUtil.newCalender(startTime), count, MOON_EVENT_TYPES);
+  }
+
 }

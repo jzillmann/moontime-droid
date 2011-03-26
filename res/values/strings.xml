@@ -5,4 +5,5 @@
     <string name="conf.label.datePattern">Date Pattern</string>
     <string name="conf.label.theme">Widget Theme</string>
     <string name="conf.default.datePattern">MMM dd, EEE - HH:mm</string> 
+    <string name="dateSliderTitle">Selected date</string>
 </resources>

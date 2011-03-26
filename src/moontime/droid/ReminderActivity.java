@@ -53,6 +53,7 @@ public class ReminderActivity extends RoboListActivity {
     _switchListsButton.setText("Switch to " + _nextMoonEvent.getType().opposite().getDisplayName());
     _reminders.clear();
     _reminders.addAll(_globalPreferences.getReminders(_nextMoonEvent, true));
+    getListAdapter().notifyDataSetChanged();
     for (int i = 0; i < _reminders.size(); i++) {
       getListView().setItemChecked(i, _reminders.get(i).isChecked());
     }
