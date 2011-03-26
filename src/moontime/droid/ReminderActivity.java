@@ -51,13 +51,16 @@ public class ReminderActivity extends RoboListActivity {
 
   @Override
   protected void onResume() {
-    setTitle(_nextMoonEvent.getType().getDisplayName() + " - Reminders");
+    updateTitle();
     super.onResume();
   }
 
+  private void updateTitle() {
+    setTitle(_nextMoonEvent.getType().getDisplayName() + " Reminders");
+  }
+
   private void updateListAdapter() {
-    // TODO +/- hours to event ? in title
-    setTitle(_nextMoonEvent.getType().getDisplayName() + " - Reminders");
+    updateTitle();
     _switchListsButton.setText("Switch to " + _nextMoonEvent.getType().opposite().getDisplayName());
     _reminders.clear();
     _reminders.addAll(_globalPreferences.getReminders(_nextMoonEvent, true));

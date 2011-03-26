@@ -37,7 +37,7 @@ public class TabActivity extends RoboTabActivity {
   @Override
   protected void onChildTitleChanged(Activity childActivity, CharSequence title) {
     super.onChildTitleChanged(childActivity, title);
-    setTitle(title);
+    setTitle(getResources().getString(R.string.app_name) + " - " + title);
   }
   //
   // @Override
