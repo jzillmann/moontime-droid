@@ -15,7 +15,7 @@ FEATURES
 USED LIBRARIES
 =====
 
-Thanks to following libraries which made development more easy!
+Thanks to following libraries which made development more easy and more fun!!!
 
 + [Guava](http://code.google.com/p/guava-libraries/)
 + [Guice](http://code.google.com/p/google-guice/)
