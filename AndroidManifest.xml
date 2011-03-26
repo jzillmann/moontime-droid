@@ -19,7 +19,7 @@
     <activity android:name="ReminderActivity"></activity>
 <activity android:name="CalenderActivity"></activity>
 <activity android:name="MoontimeTabActivity"></activity>
-<activity android:name="com.googlecode.android.widgets.DateSlider.Demo"></activity>
+
 </application>
 
 

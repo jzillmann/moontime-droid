@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.Window;
 import android.widget.TabHost;
 
-import com.googlecode.android.widgets.DateSlider.Demo;
-
 public class MoontimeTabActivity extends TabActivity {
 
   @Override
@@ -33,13 +31,6 @@ public class MoontimeTabActivity extends TabActivity {
     spec = tabHost.newTabSpec("reminders").setIndicator("Reminders").setContent(intent);
     tabHost.addTab(spec);
     tabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 33;
-
-    // demo
-    intent = new Intent().setClass(this, Demo.class);
-    intent.fillIn(getIntent(), 0);
-    spec = tabHost.newTabSpec("demo").setIndicator("Demo").setContent(intent);
-    tabHost.addTab(spec);
-    tabHost.getTabWidget().getChildAt(2).getLayoutParams().height = 33;
 
     tabHost.setCurrentTab(0);
   }

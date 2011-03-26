@@ -44,7 +44,7 @@ public class ScrollLayout extends LinearLayout {
 	private long currentTime;
 	private int objWidth, objHeight;
 	
-	private DateSlider.Labeler labeler;
+	private Labeler labeler;
 	private OnScrollListener listener;
 	private TimeView mCenterView;
 	
@@ -69,7 +69,7 @@ public class ScrollLayout extends LinearLayout {
 	 * @param objwidth the width of an TimeTextView in dps
 	 * @param objheight the height of an TimeTextView in dps
 	 */
-	public void setLabeler(DateSlider.Labeler labeler, long time, int objwidth, int objheight) {
+	public void setLabeler(Labeler labeler, long time, int objwidth, int objheight) {
 		this.labeler = labeler;
 		currentTime = time;
 		objWidth = (int)(objwidth*getContext().getResources().getDisplayMetrics().density);
@@ -207,12 +207,12 @@ public class ScrollLayout extends LinearLayout {
 				((TimeView)getChildAt(i)).setVals((TimeView)getChildAt(i-steps));
 			}
 			for (int i=getChildCount()+steps;i>0 && i<getChildCount();i++) {
-				DateSlider.TimeObject newTo = labeler.add(((TimeView)getChildAt(i-1)).getEndTime(),1);
+				TimeObject newTo = labeler.add(((TimeView)getChildAt(i-1)).getEndTime(),1);
 				((TimeView)getChildAt(i)).setVals(newTo);
 			}
 			if (getChildCount() + steps <= 0) {
 				for (int i=0;i<getChildCount();i++) {
-					DateSlider.TimeObject newTo = labeler.add(((TimeView)getChildAt(i)).getEndTime(),-steps);
+					TimeObject newTo = labeler.add(((TimeView)getChildAt(i)).getEndTime(),-steps);
 					((TimeView)getChildAt(i)).setVals(newTo);
 				}
 			}
@@ -221,12 +221,12 @@ public class ScrollLayout extends LinearLayout {
 				((TimeView)getChildAt(i)).setVals((TimeView)getChildAt(i-steps));
 			}
 			for (int i=steps-1;i>=0 && i<getChildCount()-1;i--) {
-				DateSlider.TimeObject newTo = labeler.add(((TimeView)getChildAt(i+1)).getEndTime(),-1);
+				TimeObject newTo = labeler.add(((TimeView)getChildAt(i+1)).getEndTime(),-1);
 				((TimeView)getChildAt(i)).setVals(newTo);
 			}
 			if (steps>=getChildCount()) {
 				for (int i=0;i<getChildCount();i++) {
-					DateSlider.TimeObject newTo = labeler.add(((TimeView)getChildAt(i)).getEndTime(),-steps);
+					TimeObject newTo = labeler.add(((TimeView)getChildAt(i)).getEndTime(),-steps);
 					((TimeView)getChildAt(i)).setVals(newTo);
 				}
 			}
