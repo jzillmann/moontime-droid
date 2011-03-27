@@ -16,7 +16,7 @@
  * limitations under the License.
  */
 
-package com.googlecode.android.widgets.DateSlider;
+package com.googlecode.android.widgets.dateslider;
 
 import java.util.Calendar;
 

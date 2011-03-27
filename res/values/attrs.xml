@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+     <declare-styleable name="CalenderView">
+        <attr name="background_header" format="integer" />
+        <attr name="background_rows" format="integer" />
+        <attr name="background_selectedDay" format="integer" />
+    </declare-styleable>
+</resources>

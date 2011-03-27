@@ -6,7 +6,7 @@
     android:orientation="vertical"
     >
 
-	<com.googlecode.android.widgets.DateSlider.ScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<com.googlecode.android.widgets.dateslider.ScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	   android:id="@+id/sliderYear"
 	   android:orientation="horizontal"
 	   android:layout_width="fill_parent"
@@ -16,7 +16,7 @@
 	   android:paddingRight="7px"
     /> 
 	
-	<com.googlecode.android.widgets.DateSlider.ScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	<com.googlecode.android.widgets.dateslider.ScrollLayout xmlns:android="http://schemas.android.com/apk/res/android"
 	   android:id="@+id/sliderMonth"
 	   android:orientation="horizontal"
 	   android:layout_width="fill_parent"
@@ -26,13 +26,32 @@
 	   android:paddingRight="7px"
     /> 
 
+	<moontime.droid.CalenderView
+		xmlns:calender="http://schemas.android.com/apk/res/moontime.droid"
+		android:id="@+id/calender_calenderView"
+		android:layout_width="fill_parent"
+		android:layout_height="wrap_content"
+		android:stretchColumns="*"
+		android:gravity="center"
+		calender:background_header = "@color/calender_header_background"
+		calender:background_rows = "@color/calender_day_background"
+		calender:background_selectedDay = "@color/calender_selected_day_background"
+	/>
+	
 	<TextView 
 		android:id="@+id/calender_text_moons" 
-		android:gravity="center" 
+		android:gravity="left" 
 		android:layout_height="wrap_content" 
 		android:layout_width="fill_parent"
 		android:layout_centerInParent="true" 
-		android:textSize="25dp"
+		android:textSize="12dp"
+	/>
+	<TextView 
+		android:id="@+id/calender_text_selectedDay" 
+		android:gravity="left" 
+		android:layout_height="wrap_content" 
+		android:layout_width="fill_parent"
+		android:textSize="12dp"
 	/>
 	
 </LinearLayout>

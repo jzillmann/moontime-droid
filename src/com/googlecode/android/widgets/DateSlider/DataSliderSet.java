@@ -1,4 +1,4 @@
-package com.googlecode.android.widgets.DateSlider;
+package com.googlecode.android.widgets.dateslider;
 
 import java.util.Calendar;
 import java.util.List;
@@ -29,11 +29,13 @@ public abstract class DataSliderSet {
     updateOtherElements(null);
   };
 
-  protected void updateOtherElements(ScrollLayout source) {
+  public void updateOtherElements(ScrollLayout source) {
     onDateChange(_currentTime);
     for (ScrollLayout scroller : _sliders) {
       if (scroller != source) {
+        System.out.println("DataSliderSet.updateOtherElements()" + scroller + " _ " + _currentTime.getTime());
         scroller.setTime(_currentTime.getTimeInMillis(), 0);
+        scroller.startLayoutAnimation();
       }
     }
   }
@@ -44,8 +46,7 @@ public abstract class DataSliderSet {
 
     @Override
     public TimeObject add(long time, int val) {
-      Calendar c = Calendar.getInstance();
-      c.setTimeInMillis(time);
+      Calendar c = MoonUtil.newCalender(time);
       c.add(Calendar.YEAR, val);
       return timeObjectfromCalendar(c);
     }
@@ -56,6 +57,7 @@ public abstract class DataSliderSet {
     @Override
     protected TimeObject timeObjectfromCalendar(Calendar c) {
       int year = c.get(Calendar.YEAR);
+      System.out.println("DataSliderSet.YearLabeler.timeObjectfromCalendar()" + this + ": " + year);
       // set calendar to first millisecond of the year
       c.set(year, 0, 1, 0, 0, 0);
       c.set(Calendar.MILLISECOND, 0);
@@ -72,8 +74,7 @@ public abstract class DataSliderSet {
   public static class MonthLabeler extends Labeler {
     @Override
     public TimeObject add(long time, int val) {
-      Calendar c = Calendar.getInstance();
-      c.setTimeInMillis(time);
+      Calendar c = MoonUtil.newCalender(time);
       c.add(Calendar.MONTH, val);
       return timeObjectfromCalendar(c);
     }

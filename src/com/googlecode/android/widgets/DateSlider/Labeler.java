@@ -1,10 +1,10 @@
-package com.googlecode.android.widgets.DateSlider;
+package com.googlecode.android.widgets.dateslider;
 
 import java.util.Calendar;
 
 import android.content.Context;
 
-import com.googlecode.android.widgets.DateSlider.TimeView.TimeTextView;
+import com.googlecode.android.widgets.dateslider.TimeView.TimeTextView;
 
 /**
  * This class has the purpose of telling the corresponding scroller, which

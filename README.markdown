@@ -20,7 +20,6 @@ Thanks to following libraries which made development more easy and more fun!!!
 + [Guava](http://code.google.com/p/guava-libraries/)
 + [Guice](http://code.google.com/p/google-guice/)
 + [RoboGuice](http://code.google.com/p/roboguice/)
-+ [CalenderView](http://code.google.com/p/android-calendar-view)
 + [DataSlider](http://code.google.com/p/android-dateslider/)
 + [Jackson](http://jackson.codehaus.org/)
 + [Moontime](https://github.com/jzillmann/moontime)
