@@ -20,7 +20,7 @@
     </style>
     
     <style name="DebugButton" parent="@android:style/Widget.Button.Small">
-    	<item name="android:visibility">visible</item><!-- visible/gone -->
+    	<item name="android:visibility">gone</item><!-- visible/gone -->
 	</style>
 	
 </resources>

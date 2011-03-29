@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-	<color name="calender_header_background">#60FFFFCC</color>
-	<color name="calender_day_background">#40FF0000</color>
+	<color name="calender_header_background">#6099CC99</color>
+	<color name="calender_day_background">#406699CC</color>
 	<color name="calender_event_day_background">#70FF9933</color>
 	<color name="calender_selected_day_background">#50FFFF00</color>
 </resources>
