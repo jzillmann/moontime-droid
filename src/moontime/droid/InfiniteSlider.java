@@ -21,6 +21,8 @@ public class InfiniteSlider extends Gallery {
 
   public static abstract class InfiniteAdapter extends BaseAdapter {
 
+    public static final int COUNT = Integer.MAX_VALUE;
+    public static final int MID_POSITION = COUNT / 2;
     private final Context _context;
     private final ColorStateList _sliderItemColors;
 
@@ -31,7 +33,7 @@ public class InfiniteSlider extends Gallery {
 
     @Override
     public int getCount() {
-      return Integer.MAX_VALUE;
+      return COUNT;
     }
 
     @Override

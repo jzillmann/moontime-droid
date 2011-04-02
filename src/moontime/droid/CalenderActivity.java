@@ -43,7 +43,7 @@ public class CalenderActivity extends RoboActivity {
   private InfiniteSlider _yearSlider;
   @InjectView(R.id.calender_month_slider)
   private InfiniteSlider _monthSlider;
-  protected CalenderSlider _calenderSlider;
+  public CalenderSlider _calenderSlider;
   private List<MoonEvent> _moonEvents;
 
   @Override
@@ -58,7 +58,11 @@ public class CalenderActivity extends RoboActivity {
       }
     });
 
-    _calenderSlider = new CalenderSlider(this, _yearSlider, _monthSlider) {
+    _calenderSlider = createCalenderSlider(MoonUtil.newCalender(System.currentTimeMillis()));
+  }
+
+  private CalenderSlider createCalenderSlider(Calendar date) {
+    return new CalenderSlider(this, _yearSlider, _monthSlider, date) {
       @Override
       protected void onDateChange(Calendar newDate) {
         Log.d("calender", "onDateChange: " + _selectedYearMonth.getTime() + " / " + newDate.getTime());
@@ -91,6 +95,10 @@ public class CalenderActivity extends RoboActivity {
         _moonsText.setText(builder);
       }
     };
+  }
+
+  public void setCurrentDate(Calendar calendar) {
+    _calenderSlider = createCalenderSlider(calendar);
   }
 
   @Override
