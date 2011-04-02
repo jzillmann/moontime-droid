@@ -1,8 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+     
+     <attr name="text_size" format="integer" />
+     
+     <declare-styleable name="InfiniteSlider">
+     	<attr name="text_size"  />
+     </declare-styleable>
+     
      <declare-styleable name="CalendarView">
+     	<attr name="text_size"  />
         <attr name="background_header" format="integer" />
         <attr name="background_rows" format="integer" />
         <attr name="background_selectedDay" format="integer" />
     </declare-styleable>
+    
 </resources>

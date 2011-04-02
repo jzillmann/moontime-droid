@@ -60,11 +60,12 @@ public class CalendarView extends TableLayout implements OnClickListener {
   }
 
   private void createHeaderRow(Context context, TypedArray styleAttributes) {
+    int textSize = styleAttributes.getColor(R.styleable.CalendarView_text_size, 18);
+    int backgroundColor = styleAttributes.getColor(R.styleable.CalendarView_background_header, Color.BLACK);
     String[] shortWeekdays = new DateFormatSymbols().getShortWeekdays();
     TableRow headerRow = createTableRow(context);
     for (int i = 1; i < shortWeekdays.length; i++) {
-      TextView textView = createHeaderView(context,
-          styleAttributes.getColor(R.styleable.CalendarView_background_header, Color.BLACK));
+      TextView textView = createHeaderView(context, textSize, backgroundColor);
       textView.setText(shortWeekdays[i]);
       headerRow.addView(textView);
     }
@@ -83,12 +84,14 @@ public class CalendarView extends TableLayout implements OnClickListener {
   private void createWeekRows(Context context, TypedArray styleAttributes, LayoutParams layoutParams) {
     layoutParams.setMargins(3, 3, 3, 3);
     int backgroundColor = styleAttributes.getColor(R.styleable.CalendarView_background_rows, Color.BLACK);
+    int textSize = styleAttributes.getColor(R.styleable.CalendarView_text_size, 18);
+    System.out.println("CalendarView.createWeekRows()" + textSize);
     int backgroundSelectedColor = styleAttributes
         .getColor(R.styleable.CalendarView_background_selectedDay, Color.BLACK);
     for (int week = 0; week < 6; week++) {
       TableRow tableRow = createTableRow(context);
       for (int weekDay = 0; weekDay < 7; weekDay++) {
-        DayView textView = createDayView(context, backgroundColor, backgroundSelectedColor);
+        DayView textView = createDayView(context, textSize, backgroundColor, backgroundSelectedColor);
         tableRow.addView(textView);
         _dayViews.add(textView);
       }
@@ -105,15 +108,17 @@ public class CalendarView extends TableLayout implements OnClickListener {
     return row;
   }
 
-  private TextView createHeaderView(Context context, int backgroundColor) {
+  private TextView createHeaderView(Context context, int textSize, int backgroundColor) {
     TextView textView = new TextView(context);
     textView.setGravity(Gravity.CENTER);
+    textView.setTextSize(textSize);
     textView.setBackgroundColor(backgroundColor);
     return textView;
   }
 
-  private DayView createDayView(Context context, int backgroundColor, int backgroundSelectedColor) {
+  private DayView createDayView(Context context, int textSize, int backgroundColor, int backgroundSelectedColor) {
     DayView dayView = new DayView(context, backgroundColor, backgroundSelectedColor);
+    dayView.setTextSize(textSize);
     dayView.setGravity(Gravity.CENTER);
     dayView.setOnClickListener(this);
     return dayView;

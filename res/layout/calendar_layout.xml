@@ -7,16 +7,20 @@
     >
     
     <moontime.droid.InfiniteSlider
+    	xmlns:slider="http://schemas.android.com/apk/res/moontime.droid"
     	android:id="@+id/calendar_year_slider"
     	android:layout_width="fill_parent"
 	  	android:layout_height="wrap_content"
 	  	android:spacing="30dp"
+	  	slider:text_size = "30"
     />
     <moontime.droid.InfiniteSlider
+    	xmlns:slider="http://schemas.android.com/apk/res/moontime.droid"
     	android:id="@+id/calendar_month_slider"
     	android:layout_width="fill_parent"
 	  	android:layout_height="wrap_content"
 	  	android:spacing="30dp"
+	  	slider:text_size = "25"
     />
     
 	<moontime.droid.CalendarView
@@ -30,6 +34,7 @@
 		calendar:background_header = "@color/calendar_header_background"
 		calendar:background_rows = "@color/calendar_day_background"
 		calendar:background_selectedDay = "@color/calendar_selected_day_background"
+		calendar:text_size = "20"
 	/>
 	
 	<TextView 

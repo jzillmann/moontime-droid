@@ -16,7 +16,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int background_header=0x7f010000;
+        public static final int background_header=0x7f010001;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -24,7 +24,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int background_rows=0x7f010001;
+        public static final int background_rows=0x7f010002;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -32,7 +32,15 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int background_selectedDay=0x7f010002;
+        public static final int background_selectedDay=0x7f010003;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int text_size=0x7f010000;
     }
     public static final class color {
         public static final int calendar_day_background=0x7f050001;
@@ -116,13 +124,15 @@ containing a value of this type.
            <tr><td><code>{@link #CalendarView_background_header moontime.droid:background_header}</code></td><td></td></tr>
            <tr><td><code>{@link #CalendarView_background_rows moontime.droid:background_rows}</code></td><td></td></tr>
            <tr><td><code>{@link #CalendarView_background_selectedDay moontime.droid:background_selectedDay}</code></td><td></td></tr>
+           <tr><td><code>{@link #CalendarView_text_size moontime.droid:text_size}</code></td><td></td></tr>
            </table>
            @see #CalendarView_background_header
            @see #CalendarView_background_rows
            @see #CalendarView_background_selectedDay
+           @see #CalendarView_text_size
          */
         public static final int[] CalendarView = {
-            0x7f010000, 0x7f010001, 0x7f010002
+            0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003
         };
         /**
           <p>This symbol is the offset where the {@link moontime.droid.R.attr#background_header}
@@ -137,7 +147,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name android:background_header
         */
-        public static final int CalendarView_background_header = 0;
+        public static final int CalendarView_background_header = 1;
         /**
           <p>This symbol is the offset where the {@link moontime.droid.R.attr#background_rows}
           attribute's value can be found in the {@link #CalendarView} array.
@@ -151,7 +161,7 @@ theme attribute (in the form
 containing a value of this type.
           @attr name android:background_rows
         */
-        public static final int CalendarView_background_rows = 1;
+        public static final int CalendarView_background_rows = 2;
         /**
           <p>This symbol is the offset where the {@link moontime.droid.R.attr#background_selectedDay}
           attribute's value can be found in the {@link #CalendarView} array.
@@ -165,6 +175,47 @@ theme attribute (in the form
 containing a value of this type.
           @attr name android:background_selectedDay
         */
-        public static final int CalendarView_background_selectedDay = 2;
+        public static final int CalendarView_background_selectedDay = 3;
+        /**
+          <p>This symbol is the offset where the {@link moontime.droid.R.attr#text_size}
+          attribute's value can be found in the {@link #CalendarView} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:text_size
+        */
+        public static final int CalendarView_text_size = 0;
+        /** Attributes that can be used with a InfiniteSlider.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #InfiniteSlider_text_size moontime.droid:text_size}</code></td><td></td></tr>
+           </table>
+           @see #InfiniteSlider_text_size
+         */
+        public static final int[] InfiniteSlider = {
+            0x7f010000
+        };
+        /**
+          <p>This symbol is the offset where the {@link moontime.droid.R.attr#text_size}
+          attribute's value can be found in the {@link #InfiniteSlider} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:text_size
+        */
+        public static final int InfiniteSlider_text_size = 0;
     };
 }
