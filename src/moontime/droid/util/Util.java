@@ -15,7 +15,7 @@ public class Util {
   public static final ImmutableList<String> MONTH_SHORT_NAMES = ImmutableList.copyOf(Lists.partition(
       Arrays.asList(new DateFormatSymbols().getShortMonths()), 12).get(0));
 
-  public static final ImmutableSet<Integer> CALENDER_FIELDS = ImmutableSet.of(Calendar.YEAR, Calendar.MONTH,
+  public static final ImmutableSet<Integer> CALENDAR_FIELDS = ImmutableSet.of(Calendar.YEAR, Calendar.MONTH,
       Calendar.DATE, Calendar.HOUR_OF_DAY, Calendar.MINUTE, Calendar.SECOND, Calendar.MILLISECOND);
 
   public static int getMonth(String shortName) {
@@ -33,17 +33,17 @@ public class Util {
 
   public static void resetFields(Calendar calendar, int... fieldsToReset) {
     for (int field : fieldsToReset) {
-      resetCalenderField(calendar, field);
+      resetCalendarField(calendar, field);
     }
   }
 
   public static void resetFieldsExcept(Calendar calendar, int... fieldsToKeep) {
-    for (int field : Sets.difference(CALENDER_FIELDS, ImmutableSet.of(Ints.asList(fieldsToKeep)))) {
-      resetCalenderField(calendar, field);
+    for (int field : Sets.difference(CALENDAR_FIELDS, ImmutableSet.of(Ints.asList(fieldsToKeep)))) {
+      resetCalendarField(calendar, field);
     }
   }
 
-  private static void resetCalenderField(Calendar calendar, int field) {
+  private static void resetCalendarField(Calendar calendar, int field) {
     if (field == Calendar.DATE || field == Calendar.DAY_OF_MONTH) {
       calendar.set(field, 1);
     } else {

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <projectDescription>
-	<name>moontime-droidTest</name>
+	<name>moontime-droid-test</name>
 	<comment></comment>
 	<projects>
 		<project>moontime-droid</project>

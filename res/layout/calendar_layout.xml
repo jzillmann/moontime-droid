@@ -2,38 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/layout_calender"
+    android:id="@+id/layout_calendar"
     android:orientation="vertical"
     >
     
     <moontime.droid.InfiniteSlider
-    	android:id="@+id/calender_year_slider"
+    	android:id="@+id/calendar_year_slider"
     	android:layout_width="fill_parent"
 	  	android:layout_height="wrap_content"
 	  	android:spacing="30dp"
     />
     <moontime.droid.InfiniteSlider
-    	android:id="@+id/calender_month_slider"
+    	android:id="@+id/calendar_month_slider"
     	android:layout_width="fill_parent"
 	  	android:layout_height="wrap_content"
 	  	android:spacing="30dp"
     />
     
-	<moontime.droid.CalenderView
-		xmlns:calender="http://schemas.android.com/apk/res/moontime.droid"
-		android:id="@+id/calender_calenderView"
+	<moontime.droid.CalendarView
+		xmlns:calendar="http://schemas.android.com/apk/res/moontime.droid"
+		android:id="@+id/calendar_calendarView"
 		android:layout_width="fill_parent"
 		android:layout_height="wrap_content"
 		android:stretchColumns="*"
 		android:gravity="center"
 		android:paddingTop="10dip"
-		calender:background_header = "@color/calender_header_background"
-		calender:background_rows = "@color/calender_day_background"
-		calender:background_selectedDay = "@color/calender_selected_day_background"
+		calendar:background_header = "@color/calendar_header_background"
+		calendar:background_rows = "@color/calendar_day_background"
+		calendar:background_selectedDay = "@color/calendar_selected_day_background"
 	/>
 	
 	<TextView 
-		android:id="@+id/calender_text_moons" 
+		android:id="@+id/calendar_text_moons" 
 		android:gravity="left" 
 		android:layout_height="wrap_content" 
 		android:layout_width="fill_parent"
@@ -41,7 +41,7 @@
 		android:textSize="12dp"
 	/>
 	<TextView 
-		android:id="@+id/calender_text_selectedDay" 
+		android:id="@+id/calendar_text_selectedDay" 
 		android:gravity="left" 
 		android:layout_height="wrap_content" 
 		android:layout_width="fill_parent"

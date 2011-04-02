@@ -11,7 +11,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public abstract class CalenderSlider {
+public abstract class CalendarSliders {
 
   final InfiniteSlider _yearSlider;
   final InfiniteSlider _monthSlider;
@@ -20,7 +20,7 @@ public abstract class CalenderSlider {
   final InfiniteYearAdapter _yearAdapter;
   final Calendar _currentDate;
 
-  public CalenderSlider(Context context, InfiniteSlider yearSlider, InfiniteSlider monthSlider, Calendar initDate) {
+  public CalendarSliders(Context context, InfiniteSlider yearSlider, InfiniteSlider monthSlider, Calendar initDate) {
     _currentDate = initDate;
     int initialYear = _currentDate.get(Calendar.YEAR);
     int initialMonth = _currentDate.get(Calendar.MONTH);
@@ -48,7 +48,7 @@ public abstract class CalenderSlider {
   }
 
   public void onDateChange(YearMonthAdapterPositioning adapterPositioning) {
-    Log.d("calender", adapterPositioning.getCurrentYear() + ", " + adapterPositioning.getCurrentMonth());
+    Log.d("calendsr", adapterPositioning.getCurrentYear() + ", " + adapterPositioning.getCurrentMonth());
     _yearSlider.setSelection(adapterPositioning.getCurrentYearPosition());
     _monthSlider.setSelection(adapterPositioning.getCurrentMonthPosition());
     _currentDate.set(Calendar.YEAR, adapterPositioning.getCurrentYear());
@@ -60,19 +60,19 @@ public abstract class CalenderSlider {
 
   static class InfiniteYearAdapter extends InfiniteAdapter implements OnItemSelectedListener {
 
-    private final CalenderSlider _calenderSlider;
+    private final CalendarSliders _calendarSlider;
     private YearMonthAdapterPositioning _adapterPositioning;
 
-    public InfiniteYearAdapter(CalenderSlider calenderSlider, YearMonthAdapterPositioning adapterPositioning) {
-      super(calenderSlider.getContext());
-      _calenderSlider = calenderSlider;
+    public InfiniteYearAdapter(CalendarSliders calendarSlider, YearMonthAdapterPositioning adapterPositioning) {
+      super(calendarSlider.getContext());
+      _calendarSlider = calendarSlider;
       _adapterPositioning = adapterPositioning;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
       _adapterPositioning.setCurrentYearPosition(position);
-      _calenderSlider.onDateChange(_adapterPositioning);
+      _calendarSlider.onDateChange(_adapterPositioning);
     }
 
     @Override
@@ -90,18 +90,18 @@ public abstract class CalenderSlider {
   static class InfiniteMonthAdapter extends InfiniteAdapter implements OnItemSelectedListener {
 
     private final YearMonthAdapterPositioning _adapterPositioning;
-    private final CalenderSlider _calenderSlider;
+    private final CalendarSliders _calendarSlider;
 
-    public InfiniteMonthAdapter(CalenderSlider calenderSlider, YearMonthAdapterPositioning adapterPositioning) {
-      super(calenderSlider.getContext());
-      _calenderSlider = calenderSlider;
+    public InfiniteMonthAdapter(CalendarSliders calendarSlider, YearMonthAdapterPositioning adapterPositioning) {
+      super(calendarSlider.getContext());
+      _calendarSlider = calendarSlider;
       _adapterPositioning = adapterPositioning;
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
       _adapterPositioning.setCurrentMonthPosition(position);
-      _calenderSlider.onDateChange(_adapterPositioning);
+      _calendarSlider.onDateChange(_adapterPositioning);
     }
 
     @Override

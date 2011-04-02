@@ -15,7 +15,7 @@ public class TabActivity extends RoboTabActivity {
     setContentView(R.layout.tab_layout);
 
     // Initialize a TabSpec for each tab and add it to the TabHost
-    getTabHost().addTab(createTab("Calender", CalenderActivity.class));
+    getTabHost().addTab(createTab("Calendar", CalendarActivity.class));
     getTabHost().addTab(createTab("Reminders", ReminderActivity.class));
 
     getTabHost().setCurrentTab(0);

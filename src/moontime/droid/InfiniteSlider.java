@@ -28,7 +28,7 @@ public class InfiniteSlider extends Gallery {
 
     public InfiniteAdapter(Context context) {
       _context = context;
-      _sliderItemColors = context.getResources().getColorStateList(R.color.calender_slider_item);
+      _sliderItemColors = context.getResources().getColorStateList(R.color.calendar_slider_item);
     }
 
     @Override

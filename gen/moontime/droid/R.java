@@ -35,11 +35,11 @@ containing a value of this type.
         public static final int background_selectedDay=0x7f010002;
     }
     public static final class color {
-        public static final int calender_day_background=0x7f050001;
-        public static final int calender_event_day_background=0x7f050002;
-        public static final int calender_header_background=0x7f050000;
-        public static final int calender_selected_day_background=0x7f050003;
-        public static final int calender_slider_item=0x7f050004;
+        public static final int calendar_day_background=0x7f050001;
+        public static final int calendar_event_day_background=0x7f050002;
+        public static final int calendar_header_background=0x7f050000;
+        public static final int calendar_selected_day_background=0x7f050003;
+        public static final int calendar_slider_item=0x7f050004;
     }
     public static final class drawable {
         public static final int background_border=0x7f020000;
@@ -57,17 +57,17 @@ containing a value of this type.
     public static final class id {
         public static final int Cancel=0x7f09000b;
         public static final int Submit=0x7f09000a;
-        public static final int calender_calenderView=0x7f090003;
-        public static final int calender_month_slider=0x7f090002;
-        public static final int calender_text_moons=0x7f090004;
-        public static final int calender_text_selectedDay=0x7f090005;
-        public static final int calender_year_slider=0x7f090001;
+        public static final int calendar_calendarView=0x7f090003;
+        public static final int calendar_month_slider=0x7f090002;
+        public static final int calendar_text_moons=0x7f090004;
+        public static final int calendar_text_selectedDay=0x7f090005;
+        public static final int calendar_year_slider=0x7f090001;
         public static final int clearChecks=0x7f090012;
         public static final int datePattern=0x7f090006;
         public static final int debug_AddTimeButton=0x7f090010;
         public static final int debug_RemoveTimeButton=0x7f090011;
         public static final int debug_ResetTimeButton=0x7f09000f;
-        public static final int layout_calender=0x7f090000;
+        public static final int layout_calendar=0x7f090000;
         public static final int moonPic=0x7f09000d;
         public static final int newReminderText=0x7f090009;
         public static final int nextMoons=0x7f09000e;
@@ -76,7 +76,7 @@ containing a value of this type.
         public static final int themeSpinner=0x7f090007;
     }
     public static final class layout {
-        public static final int calender_layout=0x7f030000;
+        public static final int calendar_layout=0x7f030000;
         public static final int configuration_layout=0x7f030001;
         public static final int new_reminder_dialog=0x7f030002;
         public static final int reminder_layout=0x7f030003;
@@ -107,26 +107,26 @@ containing a value of this type.
         public static final int widget_provider=0x7f040000;
     }
     public static final class styleable {
-        /** Attributes that can be used with a CalenderView.
+        /** Attributes that can be used with a CalendarView.
            <p>Includes the following attributes:</p>
            <table>
            <colgroup align="left" />
            <colgroup align="left" />
            <tr><th>Attribute</th><th>Description</th></tr>
-           <tr><td><code>{@link #CalenderView_background_header moontime.droid:background_header}</code></td><td></td></tr>
-           <tr><td><code>{@link #CalenderView_background_rows moontime.droid:background_rows}</code></td><td></td></tr>
-           <tr><td><code>{@link #CalenderView_background_selectedDay moontime.droid:background_selectedDay}</code></td><td></td></tr>
+           <tr><td><code>{@link #CalendarView_background_header moontime.droid:background_header}</code></td><td></td></tr>
+           <tr><td><code>{@link #CalendarView_background_rows moontime.droid:background_rows}</code></td><td></td></tr>
+           <tr><td><code>{@link #CalendarView_background_selectedDay moontime.droid:background_selectedDay}</code></td><td></td></tr>
            </table>
-           @see #CalenderView_background_header
-           @see #CalenderView_background_rows
-           @see #CalenderView_background_selectedDay
+           @see #CalendarView_background_header
+           @see #CalendarView_background_rows
+           @see #CalendarView_background_selectedDay
          */
-        public static final int[] CalenderView = {
+        public static final int[] CalendarView = {
             0x7f010000, 0x7f010001, 0x7f010002
         };
         /**
           <p>This symbol is the offset where the {@link moontime.droid.R.attr#background_header}
-          attribute's value can be found in the {@link #CalenderView} array.
+          attribute's value can be found in the {@link #CalendarView} array.
 
 
           <p>Must be an integer value, such as "<code>100</code>".
@@ -137,10 +137,10 @@ theme attribute (in the form
 containing a value of this type.
           @attr name android:background_header
         */
-        public static final int CalenderView_background_header = 0;
+        public static final int CalendarView_background_header = 0;
         /**
           <p>This symbol is the offset where the {@link moontime.droid.R.attr#background_rows}
-          attribute's value can be found in the {@link #CalenderView} array.
+          attribute's value can be found in the {@link #CalendarView} array.
 
 
           <p>Must be an integer value, such as "<code>100</code>".
@@ -151,10 +151,10 @@ theme attribute (in the form
 containing a value of this type.
           @attr name android:background_rows
         */
-        public static final int CalenderView_background_rows = 1;
+        public static final int CalendarView_background_rows = 1;
         /**
           <p>This symbol is the offset where the {@link moontime.droid.R.attr#background_selectedDay}
-          attribute's value can be found in the {@link #CalenderView} array.
+          attribute's value can be found in the {@link #CalendarView} array.
 
 
           <p>Must be an integer value, such as "<code>100</code>".
@@ -165,6 +165,6 @@ theme attribute (in the form
 containing a value of this type.
           @attr name android:background_selectedDay
         */
-        public static final int CalenderView_background_selectedDay = 2;
+        public static final int CalendarView_background_selectedDay = 2;
     };
 }

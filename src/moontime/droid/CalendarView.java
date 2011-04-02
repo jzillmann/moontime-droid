@@ -18,20 +18,20 @@ import android.widget.TextView;
 
 import com.google.inject.internal.Lists;
 
-public class CalenderView extends TableLayout implements OnClickListener {
+public class CalendarView extends TableLayout implements OnClickListener {
 
   private List<DayView> _dayViews = Lists.newArrayList();
   private OnDayClickListener _onDayClickListener;
   private Calendar _currentMonthYearToView;
   private DayView _selectedDay;
 
-  public CalenderView(Context context) {
+  public CalendarView(Context context) {
     super(context);
   }
 
-  public CalenderView(Context context, AttributeSet attrs) {
+  public CalendarView(Context context, AttributeSet attrs) {
     super(context, attrs);
-    TypedArray styleAttributes = context.obtainStyledAttributes(attrs, R.styleable.CalenderView);
+    TypedArray styleAttributes = context.obtainStyledAttributes(attrs, R.styleable.CalendarView);
 
     createHeaderRow(context, styleAttributes);
     createWeekRows(context, styleAttributes, generateLayoutParams(attrs));
@@ -64,7 +64,7 @@ public class CalenderView extends TableLayout implements OnClickListener {
     TableRow headerRow = createTableRow(context);
     for (int i = 1; i < shortWeekdays.length; i++) {
       TextView textView = createHeaderView(context,
-          styleAttributes.getColor(R.styleable.CalenderView_background_header, Color.BLACK));
+          styleAttributes.getColor(R.styleable.CalendarView_background_header, Color.BLACK));
       textView.setText(shortWeekdays[i]);
       headerRow.addView(textView);
     }
@@ -77,14 +77,14 @@ public class CalenderView extends TableLayout implements OnClickListener {
         return _dayViews.get(i);
       }
     }
-    throw new IllegalArgumentException("no day '" + day + "' found in calender for " + _currentMonthYearToView);
+    throw new IllegalArgumentException("no day '" + day + "' found in calendar for " + _currentMonthYearToView);
   }
 
   private void createWeekRows(Context context, TypedArray styleAttributes, LayoutParams layoutParams) {
     layoutParams.setMargins(3, 3, 3, 3);
-    int backgroundColor = styleAttributes.getColor(R.styleable.CalenderView_background_rows, Color.BLACK);
+    int backgroundColor = styleAttributes.getColor(R.styleable.CalendarView_background_rows, Color.BLACK);
     int backgroundSelectedColor = styleAttributes
-        .getColor(R.styleable.CalenderView_background_selectedDay, Color.BLACK);
+        .getColor(R.styleable.CalendarView_background_selectedDay, Color.BLACK);
     for (int week = 0; week < 6; week++) {
       TableRow tableRow = createTableRow(context);
       for (int weekDay = 0; weekDay < 7; weekDay++) {
