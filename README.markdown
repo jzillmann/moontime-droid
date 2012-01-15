@@ -8,7 +8,8 @@ An android application which to shows next moon-phases, sun-rise and things like
 
 FEATURES
 =====
-+ show next 3 moon-events (new-moon/full-moon) as widget 
++ show next 3 moon-events (new-moon/full-moon) as widget
++ calendar view with moon-events
 + new-moon/full-moon task-list
 
 

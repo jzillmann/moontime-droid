@@ -9,5 +9,5 @@
 	<classpathentry exported="true" kind="lib" path="libs/jackson-mapper-asl-1.7.4.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/moontime-0.1.dev.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/roboguice-1.1.1.jar"/>
-	<classpathentry kind="output" path="bin-eclipse"/>
+	<classpathentry kind="output" path="bin/classes"/>
 </classpath>
